@@ -1,0 +1,190 @@
+.user_list_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4rem;
+    gap : 4rem ;
+    font-family: "Poppins", sans-serif; 
+    background-color: black; 
+}
+.search_user{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.list_users_containers{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 30px; 
+}
+.template_user{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #9f9e9e;
+    padding: 1rem;
+    border-radius: 10px;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+.template_user:hover{
+    transform: scale(1.05);
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
+}
+
+.user_img{
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+}
+.user_list_headline{
+    font-size: 3rem;
+    font-weight: 500 ;
+}
+.logout{
+    padding: 12px 16px;
+    border: 1px solid #9f9e9e;
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+.logout:hover{
+    transform: scale(1.05);
+}
+.container_markup{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    color: white;
+    justify-content: space-between;
+}
+.first_name_user{
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 600;
+}
+.email_users{
+    display: flex;
+    align-items: center;
+    gap : 0.5rem ;
+    align-items: left;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    font-family: "Monaco" ,monospace;
+}
+span{
+    color: white;
+    cursor: pointer;
+}
+.edit_delete_button{
+    display: flex ;
+    width: 100%;
+    gap: 0.5rem ;
+}
+.edit_details{
+    width: 100%;
+    border: 1px solid #9f9e9e;
+    height: 1.5rem;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.mail_connect{
+    width: 15px;
+    height: 15px;
+}
+.pagination_section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem ;
+}
+.pagination_button{
+    border : 1px solid #9f9e9e ;
+    border-radius : 5px ;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+.pagination_button:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+  }
+.active_page {
+    background-color: #ffffff; 
+    color: rgb(0, 0, 0); 
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(5px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+.modal_content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+.close_button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+.edit_execute, .edit_cancel {
+    padding: 10px 15px;
+    margin: 10px 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+  }
+.edit_execute {
+    background-color: #000000; 
+    color: white;
+  }
+.edit_cancel {
+    background-color: #000000; 
+    color: white;
+  }
+input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+.edit_user{
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 40px;
+}
+.edit_inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem ;
+  }
+.edit_form_details{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem ;
+  }
