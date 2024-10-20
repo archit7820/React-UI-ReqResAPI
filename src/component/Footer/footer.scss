@@ -1,0 +1,77 @@
+/* Footer.css */
+
+.footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    font-family: "Inter", sans-serif;
+    background-color: black;
+    border-top: 1px solid #ededed;
+    color: white;
+  }
+  
+  .section {
+ 
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .newsletter-input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 70%;
+  }
+  
+  .submit-button {
+    padding: 10px;
+    background-color: #000000;
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #09b328b0;
+  }
+  .newsletter_headline{
+    font-size: clamp(0.8rem, 5vw, 1.3rem);
+    margin-bottom: 1rem ;
+    font-weight: bold;
+    
+  }
+  
+  .newletter_submit{
+    display: flex;
+    gap: 0.5rem;
+    box-sizing: border-box;
+
+  }
+  @media (max-width: 768px) {
+.footer {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  font-family: "Inter", sans-serif;
+  background-color: black;
+  border-top: 1px solid #ededed;
+  color: white;
+}
+  .newletter_submit{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-sizing: border-box;
+
+  }
+  .newsletter-input{
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
+

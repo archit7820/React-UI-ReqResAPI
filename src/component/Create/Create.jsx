@@ -94,7 +94,7 @@ const Create = () => {
       });
 
       setTimeout(() => {
-        navigate("/UserList");
+        navigate("/home");
       }, 2000);
     } catch (err) {
       if (err.response) {

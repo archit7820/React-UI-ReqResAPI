@@ -56,6 +56,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+     localStorage.setItem("email_assignment" , email) ;
       //user axios to post data to API
       const response = await axios.post("https://reqres.in/api/login", {
         email,
@@ -64,10 +65,11 @@ const Login = () => {
 
       const { token } = response.data;
       localStorage.setItem("token", token);
+  
       toast.success("Login successful!");  // notification for successful login
       setTimeout(() => { 
-        navigate("/UserList");   // navigate to UserList page
-      }, 2000);
+        navigate("/home");   // navigate to UserList page
+      }, 1000);
     } catch (err) {
       if (err.response) {
         const statusCode = err.response.status;

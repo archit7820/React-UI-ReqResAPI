@@ -6,46 +6,42 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./userlist.scss";
 
 const UserList = () => {
-  const [users, setUsers] = useState([]); // State to hold the list of users
-  const [currentPage, setCurrentPage] = useState(1); // State for pagination
-  const [loading, setLoading] = useState(true); // State to manage loading status
-  const [editingUser, setEditingUser] = useState(null); // State for the user being edited
-  const [formData, setFormData] = useState({ first_name: "", last_name: "", email: "" }); // State for form inputs
-  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+  const [users, setUsers] = useState([]); 
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [loading, setLoading] = useState(true); 
+  const [editingUser, setEditingUser] = useState(null); 
+  const [formData, setFormData] = useState({ first_name: "", last_name: "", email: "" });
+  const [searchTerm, setSearchTerm] = useState(""); 
   const navigate = useNavigate();
 
-  // Fetch users when the component mounts or when currentPage changes
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // Redirect to login if no token is present
     if (!token) {
       navigate("/");
       return;
     }
 
-    // Fetch users from API
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        // user Axios to fetch data from API
         const response = await axios.get(`https://reqres.in/api/users?page=${currentPage}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUsers(response.data.data); // Set state for users from response
+        setUsers(response.data.data);
       } catch (error) {
-        // Error handling with notification
-        toast.error(`Error fetching users: ${error.response?.data?.error || error.message}`);
+        toast.error(`Error fetching users: ${error.response?.data?.error || error.message}`, {
+          autoClose: 3000, // Notification auto-closes after 5 seconds
+        });
       } finally {
-        setLoading(false); // Set loading to false after fetch
+        setLoading(false);
       }
     };
 
     fetchUsers();
   }, [navigate, currentPage]);
 
-  // Handle pagination
   const handleNextPage = () => {
     setCurrentPage((prevPage) => (prevPage < 2 ? prevPage + 1 : prevPage));
   };
@@ -54,42 +50,43 @@ const UserList = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
   };
 
-  //Logout function
-  const logout = () => { 
-    localStorage.removeItem("token");
-    navigate("/");
-  };
-
-  // Set the user to edit !!
   const handleEditClick = (user) => {
     setEditingUser(user.id);
     setFormData({ first_name: user.first_name, last_name: user.last_name, email: user.email });
   };
 
-  // Handle user deletion
   const handleDeleteClick = async (userId) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`https://reqres.in/api/users/${userId}`, {
+      const response = await axios.delete(`https://reqres.in/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUsers(users.filter(user => user.id !== userId)); // Update user list
-      toast.success("User deleted successfully."); // Notification
+  
+      if (response.status === 204) {
+        // Show success notification first
+        toast.error("User deleted successfully.", {
+          autoClose: 3000, // Notification auto-closes after 3 seconds
+        });
+        
+        // Then update the users state
+        setUsers((prevUsers) => prevUsers.filter(user => user.id !== userId));
+      }
     } catch (error) {
-      // Error handling with notification
-      toast.error(`Error deleting user: ${error.response?.data?.error || error.message}`);
+      // Handle any errors that occur during the deletion process
+      toast.error(`Error deleting user: ${error.response?.data?.error || error.message}`, {
+        autoClose: false,  // Keep error notification open until manually closed
+      });
     }
   };
+  
 
-  // Handle form input changes
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Update user details
   const handleUpdateUser = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -99,59 +96,74 @@ const UserList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user.id === editingUser ? { ...user, ...formData } : user
         )
       );
-      toast.success("User updated successfully."); // Notification
-      setEditingUser(null); // Reset editing user
-      setFormData({ first_name: "", last_name: "", email: "" }); // Clear form data
+
+      toast.success("User updated successfully.", {
+        onClose: () => {
+          setEditingUser(null);
+          setFormData({ first_name: "", last_name: "", email: "" });
+        },
+        autoClose: 2000, // Notification auto-closes after 5 seconds
+      });
     } catch (error) {
-      // Error handling with notification
-      toast.error(`Error updating user: ${error.response?.data?.error || error.message}`);
+      toast.error(`Error updating user: ${error.response?.data?.error || error.message}`, {
+        autoClose: false, // Keep error notification open until manually closed
+      });
     }
   };
 
-  // Filter users based on search term
   const filteredUsers = users.filter((user) =>
     user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  const colors = [
+    "#FF6F61",  // Coral Red
+    "#6B5B95",  // Rich Purple
+    "#88B04B",  // Soft Green
+    "#F7CAC9",  // Pale Pink
+    "#92A8D1",  // Calm Blue
+    "#FFCC5C"   // Golden Yellow
+  ];
+  const hoverColors = ["#d1a6d8", "#a6c8e1", "#a6d8b5", "#d8d1a6", "#d8b1a6", "#b6a6d8"];
+  
   return (
     <div className="user_list_container">
 
       <div className="container_markup">
-        <div className="user_list_headline">Say hi to users</div>
-        <div className="logout" onClick={logout}>Logout</div>
+        <div className="user_list_headline">Say hii to users !!</div>
       </div>
 
-      {/* Search Input */}
-      <div className="search_user"> 
-      <input
-        type="text"
-        placeholder="Search users by name or email..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
-        className="search_input" 
-      />
-       </div>
+      <div className="search_user">
+        <input
+          type="text"
+          placeholder="Search users by name or email..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search_input"
+        />
+        <span className="search_icon">
+          <img src="/Search.svg" alt="Search" />
+        </span>
+      </div>
 
-         
       {loading ? (
         <div>Loading...</div>
       ) : (
         <>
           <div className="list_users_containers">
             {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
+              filteredUsers.map((user , index) => (
                 <div key={user.id}>
-                  <div className="template_user">
+                  <div className="template_user"   style={{  "--hover-bg": hoverColors[index % hoverColors.length] , backgroundColor: colors[index % colors.length] }} >
                     <img className="user_img" alt={user.first_name} src={user.avatar} />
                     <div className="user_details">
-                      <div className="first_name_user" style={{color: "#168700"}}>{user.first_name} {user.last_name}</div>
+                      <div className="first_name_user" >{user.first_name} {user.last_name}</div>
                       <div className="email_users"><img className="mail_connect" src="./mail.png" alt="" />{user.email}</div>
                     </div>
                     <div className="edit_delete_button">
@@ -166,8 +178,6 @@ const UserList = () => {
             )}
           </div>
 
-
-          {/* Pagination Section */}
           <div className="pagination_section">
             <button
               className="pagination_button"
@@ -199,7 +209,6 @@ const UserList = () => {
             </button>
           </div>
 
-          {/* Dialogg box for Editing User */}
           {editingUser && (
             <div className="modal_overlay">
               <div className="modal_content">
@@ -249,7 +258,9 @@ const UserList = () => {
           )}
         </>
       )}
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
+
+<ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
+
     </div>
   );
 };
