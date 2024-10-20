@@ -56,7 +56,7 @@ const Create = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+console.log(error) ;
     // Check if terms are accepted
     if (!acceptedTerms) {
         toast.error("Please accept the Terms of Service and Privacy Policy.", {
