@@ -4,7 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
+/* eslint-disable no-unused-vars */
 // login sidebar Image section
 const images = [
   {
